@@ -17,8 +17,7 @@ bool configured;
 
 String on_path;
 String off_path;
-String av_ap[20];
-int size;
+
 int ledstatus = 0;
 
 WebServer server(80);
