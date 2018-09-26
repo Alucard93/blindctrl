@@ -5,16 +5,15 @@
 class WifiSetup {
 
 private:
-  String av_ap[20];
-  int size;
-  void scanNetworks();
+  static String av_ap[20];
+  static int size;
 
 public:
-  WifiSetup(bool configured);
-  String wifiAsAP();
-  bool connect(const String& ssid, const String& password);
-  String* getAvailableNetworks();
-  int getNumberOfNetworks();
+  static void scanNetworks();
+  static void wifiAsAP(const String& wifiName);
+  static bool connect(const String& ssid, const String& password);
+  static String* getAvailableNetworks();
+  static int getNumberOfNetworks();
 
 };
 #endif

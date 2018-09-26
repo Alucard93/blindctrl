@@ -1,5 +1,8 @@
 #include "WifiSetup.h"
 
+String WifiSetup::av_ap[20]={};
+int WifiSetup::size=0;
+
 void WifiSetup::scanNetworks(){
   WiFi.mode(WIFI_STA);
   int n = WiFi.scanNetworks();
@@ -20,22 +23,12 @@ void WifiSetup::scanNetworks(){
   }
 }
 
-WifiSetup::WifiSetup(const Configuration& cnf){
-  if(cnf.isConfigured())
-    connect(cnf.getWifiSSID(), cnf.getWifiPassword());
-  else{
-    scanNetworks();
-    wifiAsAP();
-  }
-}
-
-String WifiSetup::wifiAsAP(){
-  WiFi.softAP("FirstRun");
-  return "FirstRun";
+void WifiSetup::wifiAsAP(const String& wifiName){
+  WiFi.softAP(wifiName.c_str());
 }
 
 bool WifiSetup::connect(const String& ssid, const String& password){
-  WiFi.begin(ssid.c_str(), pwd.c_str());
+  WiFi.begin(ssid.c_str(), password.c_str());
   int retry = 40;
   while (WiFi.status() != WL_CONNECTED && retry >= 0) {
     delay(500);

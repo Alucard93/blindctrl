@@ -8,6 +8,8 @@ String Configuration::newKey(){
     if (randomValue > 26)
       letter = (randomValue - 26) + '0';
   toReturn+=letter;
+  }
+  return toReturn;
 }
 
 Configuration::Configuration(){
@@ -16,56 +18,81 @@ Configuration::Configuration(){
   _password = pref.getString(password_key);
   _api_key = pref.getString(api_key);
   _configured = pref.getBool(configured_key);
+  _fsDone = pref.getBool(fs_done_key);
   pref.end();
   if(!_configured)
     setNewApiKey();
+}
+
+void Configuration::status(){
+  pref.begin(name_mem, true);
+  Serial.println();
+  Serial.println(pref.getString(ssid_key).c_str());
+  Serial.println(pref.getString(password_key).c_str());
+  Serial.println(pref.getString(api_key).c_str());
+  Serial.println(pref.getBool(configured_key));
+  Serial.println();
+  pref.end();
 }
 
 String Configuration::getWifiSSID() const{
   return _ssid;
 }
 
-String getWifiPassword() const{
+String Configuration::getWifiPassword() const{
   return _password;
 }
 
-String getApiKey() const{
+String Configuration::getApiKey() const{
   return _api_key;
 }
 
-bool isConfigured() const{
+bool Configuration::isConfigured() const{
   return _configured;
 }
 
-void setWifiSSID(const String & ssid){
+bool Configuration::isFsDone() const{
+  return _fsDone;
+}
+
+void Configuration::setWifiSSID(const String & ssid){
   _ssid = ssid;
   pref.begin(name_mem, false);
   pref.putString(ssid_key,_ssid);
   pref.end();
 }
 
-void setWifiPassword(const String & pwd){
+void Configuration::setWifiPassword(const String & pwd){
   _password = pwd;
   pref.begin(name_mem, false);
   pref.putString(password_key,_password);
   pref.end();
 }
 
-void setNewApiKey(){
+void Configuration::setNewApiKey(){
+  Serial.println("newkey");
   _api_key = newKey();
+  Serial.println(_api_key.c_str());
   pref.begin(name_mem, false);
-  pref.putString(api_key,_password);
+  pref.putString(api_key,_api_key);
   pref.end();
 }
 
-void setConfigured(bool cnf){
+void Configuration::setConfigured(bool cnf){
   _configured = cnf;
   pref.begin(name_mem, false);
-  pref.putString(configured_key,_password);
+  pref.putBool(configured_key,_configured);
   pref.end();
 }
 
-void reset(){
+void Configuration::setFsDone(bool cnf){
+  _fsDone = cnf;
+  pref.begin(name_mem, false);
+  pref.putBool(fs_done_key,_fsDone);
+  pref.end();
+}
+
+void Configuration::reset(){
   pref.begin(name_mem, false);
   pref.clear();
   pref.end();

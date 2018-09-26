@@ -2,13 +2,16 @@
 #define WEBREQUESTSHANDLER_H
 #include <WebServer.h>
 #include "Configuration.h"
-
-class WebRequestHandler {
+#include "FunctionView.h"
+#include "SetUpView.h"
+#include "View.h"
+class WebRequestsHandler {
 private:
-  Configuration conf;
+  Configuration* conf;
+  View* view;
 public:
-  WebRequestHandler();
-  void SetUp();
+  WebRequestsHandler();
+  void setup();
   void handle();
 };
 
