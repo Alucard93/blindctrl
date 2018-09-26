@@ -7,8 +7,6 @@ void setup(void) {
   WebRequestsHandler* handler = new WebRequestsHandler();
   handler->setup();
   Serial.println(WiFi.softAPIP());
-  if (MDNS.begin("esp32.local"))
-    Serial.println("MDNS responder started");
 }
 
 void loop(void) {

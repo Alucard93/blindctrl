@@ -2,9 +2,9 @@
 
 String* SetUpView::av_ap=nullptr;
 int SetUpView::size=0;
-WebServer* SetUpView::_server = new WebServer(80);
+AsyncWebServer SetUpView::server(80);
 
-void SetUpView::selectWifi() {
+void SetUpView::selectWifi(AsyncWebServerRequest *request) {
   View::_cnf->status();
   String message = "";
   message += "<!DOCTYPE html>";
@@ -23,18 +23,18 @@ void SetUpView::selectWifi() {
   message += "<br><input type=\"submit\" value=\"Submit\">";
   message += "</form></div>";
   message += "</html>";
-  _server->send(200, "text/html", message);
+  request->send(200, "text/html", message);
   View::_cnf->status();
 
 }
 
-void SetUpView::insertPassword(){
+void SetUpView::insertPassword(AsyncWebServerRequest *request){
 
   String message = "<!DOCTYPE html><html>";
-  if (_server->hasArg("set_ssid")) {
-    if (_server->arg("set_ssid") == "true") {
+  if (request->hasParam("set_ssid")) {
+    if (request->getParam("set_ssid")->value() == "true") {
       String ssid = "";
-      int choosen = atoi(_server->arg("ssid_id").c_str());
+      int choosen = atoi(request->getParam("ssid_id")->value().c_str());
        if (choosen >= 0)
         ssid = av_ap[choosen];
        else
@@ -48,24 +48,24 @@ void SetUpView::insertPassword(){
     message += "<br><input type=\"submit\" value=\"Submit\">";
     message += "</form></div>";
     message += "</html>";
-    _server->send(200, "text/html", message);
+    request->send(200, "text/html", message);
     View::_cnf->status();
   }else{
     //redirect("error");
   }
 
 }
-void SetUpView::getApi(){
+void SetUpView::getApi(AsyncWebServerRequest *request){
   String message = "<!DOCTYPE html><html>";
-  if (_server->hasArg("set_pwd")) {
-    if (_server->arg("set_pwd") == "true") {
-      String pwd = _server->arg("pwd");
+  if (request->hasParam("set_pwd")) {
+    if (request->getParam("set_pwd")->value() == "true") {
+      String pwd = request->getParam("pwd")->value();
       message += "PASSWORD WAS " + pwd +"<br> API KEY <br>";
       View::_cnf->setWifiPassword(pwd);
       View::_cnf->setNewApiKey();
     }
     message += View::_cnf->getApiKey();
-    _server->send(200, "text/html", message);
+    request->send(200, "text/html", message);
     View::_cnf->setConfigured();
     View::_cnf->status();
   }else{
@@ -73,11 +73,11 @@ void SetUpView::getApi(){
   }
 }
 
-void SetUpView::error(){
-  _server->send(400, "text/html", "bad request");
+void SetUpView::error(AsyncWebServerRequest *request){
+  request->send(400, "text/html", "bad request");
 }
 
-void SetUpView::reboot(){
+void SetUpView::reboot(AsyncWebServerRequest *request){
   ESP.restart();
 }
 
@@ -87,14 +87,13 @@ void SetUpView::setup(){
   size = WifiSetup::getNumberOfNetworks();
   WifiSetup::wifiAsAP("setup");
   View::_cnf->reset();
-  _server->on("/", selectWifi);
-  _server->on("/wfsl", insertPassword);
-  _server->on("/pwdns", getApi);
-  _server->on("/error", error);
-  _server->on("/reboot", reboot);
-  _server->begin();
+  server.on("/", HTTP_GET,selectWifi);
+  server.on("/wfsl", HTTP_POST,insertPassword);
+  server.on("/pwdns", HTTP_POST,getApi);
+  server.on("/error", HTTP_POST,error);
+  server.on("/reboot", HTTP_GET,reboot);
+  server.begin();
 }
 
 void SetUpView::handle(){
-  _server->handleClient();
 }
