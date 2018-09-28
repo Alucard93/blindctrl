@@ -89,6 +89,7 @@ void SetUpView::setup(){
   View::_cnf->reset();
   server.on("/", HTTP_GET,selectWifi);
   server.on("/wfsl", HTTP_POST,insertPassword);
+  server.on("/wfsl", HTTP_GET,insertPassword);
   server.on("/pwdns", HTTP_POST,getApi);
   server.on("/error", HTTP_POST,error);
   server.on("/reboot", HTTP_GET,reboot);

@@ -10,5 +10,4 @@ void setup(void) {
 }
 
 void loop(void) {
-  handler->handle();
 }

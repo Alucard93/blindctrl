@@ -3,9 +3,9 @@
 WebRequestsHandler::WebRequestsHandler(){
   conf = new Configuration();
   conf->status();
-  if(conf->isConfigured())
-    view = new FunctionView(*conf);
-  else
+  //if(conf->isConfigured())
+  //  view = new FunctionView(*conf);
+  //else
     view = new SetUpView(*conf);
 }
 void WebRequestsHandler::setup(){

@@ -5,6 +5,11 @@ void FunctionView::slider(Control sender, int type){
 }
 
 void FunctionView::setup(){
+  if(!View::_cnf->isFsDone()){
+    Serial.println("preparing filesystem");
+    ESPUI.prepareFileSystem();
+    View::_cnf->setFsDone();
+  }
   Serial.println("test connection");
   WifiSetup::connect(View::_cnf->getWifiSSID(),View::_cnf->getWifiPassword());
   Serial.println("connected");
