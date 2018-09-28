@@ -1,7 +1,7 @@
 #include "FunctionView.h"
 
 void FunctionView::slider(Control sender, int type){
-//Serial.println(sender.value);
+  Serial.println(sender.value);
 }
 
 void FunctionView::setup(){

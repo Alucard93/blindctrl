@@ -1,7 +1,8 @@
 #ifndef VIEW_H
 #define VIEW_H
 #include "Configuration.h"
-#include "WifiSetup.h";
+#include "WifiSetup.h"
+
 class View{
 protected:
   static Configuration* _cnf;

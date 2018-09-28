@@ -16,6 +16,9 @@ private:
   static void getApi(AsyncWebServerRequest *request);
   static void error(AsyncWebServerRequest *request);
   static void reboot(AsyncWebServerRequest *request);
+  static String getWifiSelectionScreen();
+  static String getWifiPasswordInsertionScreen(String ssid_id);
+  static String getSuccessScreen(String pwd);
 public:
   SetUpView(Configuration& cnf):View(cnf){}
   void setup();
