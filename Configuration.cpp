@@ -17,6 +17,7 @@ Configuration::Configuration(){
   _ssid = pref.getString(ssid_key);
   _password = pref.getString(password_key);
   _api_key = pref.getString(api_key);
+  _status = pref.getString(status_key);
   _configured = pref.getBool(configured_key);
   _fsDone = pref.getBool(fs_done_key);
   pref.end();
@@ -47,6 +48,10 @@ String Configuration::getApiKey() const{
   return _api_key;
 }
 
+String Configuration::getStatus() const{
+  return _status;
+}
+
 bool Configuration::isConfigured() const{
   return _configured;
 }
@@ -66,6 +71,13 @@ void Configuration::setWifiPassword(const String & pwd){
   _password = pwd;
   pref.begin(name_mem, false);
   pref.putString(password_key,_password);
+  pref.end();
+}
+
+void Configuration::setStatus(const String & status){
+  _status = status;
+  pref.begin(name_mem, false);
+  pref.putString(status_key, _status);
   pref.end();
 }
 

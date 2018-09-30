@@ -10,8 +10,6 @@ public:
   View(Configuration& cnf){_cnf = (&cnf);}
   virtual ~View() = default;
   virtual void setup() = 0;
-  virtual void handle() = 0;
-
 };
 
 #endif

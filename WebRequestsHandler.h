@@ -1,7 +1,7 @@
 #ifndef WEBREQUESTSHANDLER_H
 #define WEBREQUESTSHANDLER_H
 #include "Configuration.h"
-#include "FunctionView.h"
+#include "BlindControl.h"
 #include "SetUpView.h"
 #include "View.h"
 class WebRequestsHandler {
@@ -11,7 +11,7 @@ private:
 public:
   WebRequestsHandler();
   void setup();
-  void handle();
+  static void handle();
 };
 
 #endif

@@ -11,9 +11,7 @@ private:
   static String* av_ap;
   static int size;
   static AsyncWebServer server;
-  static void selectWifi(AsyncWebServerRequest *request);
-  static void insertPassword(AsyncWebServerRequest *request);
-  static void getApi(AsyncWebServerRequest *request);
+  static void handler(AsyncWebServerRequest *request);
   static void error(AsyncWebServerRequest *request);
   static void reboot(AsyncWebServerRequest *request);
   static String getWifiSelectionScreen();
@@ -22,7 +20,7 @@ private:
 public:
   SetUpView(Configuration& cnf):View(cnf){}
   void setup();
-  void handle();
+  void handleButton();
 };
 
 #endif
