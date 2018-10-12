@@ -11,8 +11,11 @@ private:
   static constexpr char *status_key = "sts";
   static constexpr char *configured_key = "cnf";
   static constexpr char *fs_done_key = "fdk";
+  static constexpr char *uptime_key = "up";
+  static constexpr char *downtime_key = "down";
   String _ssid, _password, _api_key, _status;
   bool _configured, _fsDone;
+  unsigned long int _uptime, _downtime;
   Preferences pref;
   String newKey();
 
@@ -23,6 +26,8 @@ public:
   String getWifiPassword() const;
   String getApiKey() const;
   String getStatus() const;
+  unsigned long int getUpTime() const;
+  unsigned long int getDownTime() const;
   bool isConfigured() const;
   bool isFsDone() const;
   void setWifiSSID(const String & ssid);
@@ -31,6 +36,8 @@ public:
   void setNewApiKey();
   void setConfigured(bool cnf=true);
   void setFsDone(bool cnf=true);
+  void setUpTime(unsigned long int time);
+  void setDownTime(unsigned long int time);
   void reset();
 };
 #endif

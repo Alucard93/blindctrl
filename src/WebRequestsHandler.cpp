@@ -1,5 +1,8 @@
 #include "WebRequestsHandler.h"
 
+View* WebRequestsHandler::view;
+
+
 WebRequestsHandler::WebRequestsHandler(){
   conf = new Configuration();
   conf->status();
@@ -12,5 +15,5 @@ void WebRequestsHandler::setup(){
   view->setup();
 }
 void WebRequestsHandler::handle(){
-  BlindControl::handleButton();
+  view->handleButton();
 }

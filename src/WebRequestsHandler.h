@@ -4,10 +4,11 @@
 #include "BlindControl.h"
 #include "SetUpView.h"
 #include "View.h"
+
 class WebRequestsHandler {
 private:
   Configuration* conf;
-  View* view;
+  static View* view;
 public:
   WebRequestsHandler();
   void setup();

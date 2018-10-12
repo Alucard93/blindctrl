@@ -28,18 +28,19 @@ void WifiSetup::wifiAsAP(const String& wifiName){
 }
 
 bool WifiSetup::connect(const String& ssid, const String& password){
-  WiFi.begin(ssid.c_str(), password.c_str());
-  int retry = 40;
-  while (WiFi.status() != WL_CONNECTED && retry >= 0) {
-    delay(500);
-    Serial.print(".");
-    retry--;
+  if(WiFi.status() != WL_CONNECTED){
+    WiFi.begin(ssid.c_str(), password.c_str());
+    int retry = 40;
+    while (WiFi.status() != WL_CONNECTED && retry >= 0) {
+      delay(500);
+      Serial.print(".");
+      retry--;
+    }
+    if(retry==0){
+      Serial.println("error");
+      return false;
+    }
   }
-  if(retry==0){
-    Serial.println("error");
-    return false;
-  }
-
   return true;
 }
 

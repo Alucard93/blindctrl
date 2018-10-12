@@ -22,7 +22,7 @@ void SetUpView::handler(AsyncWebServerRequest *request) {
       Serial.printf("GET[%s]: %s\n", p->name().c_str(), p->value().c_str());
     }
   }
-  String toUse = "<!DOCTYPE html><html>";
+  String toUse = "<!DOCTYPE html><html><header><title>First configuration</title></header><body>";
 
   if(request->hasParam("set_ssid", true)){
     toUse = getWifiPasswordInsertionScreen(request->getParam("ssid_id", true)->value());
@@ -32,7 +32,7 @@ void SetUpView::handler(AsyncWebServerRequest *request) {
   else
     toUse = getWifiSelectionScreen();
 
-  toUse += "</html>";
+  toUse += "</body></html>";
   request->send(200, "text/html", toUse);
 
 }
