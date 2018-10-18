@@ -96,7 +96,7 @@ void BlindControl::setStatus(int l_status){
             if(free)
                 timetoSet = (uptime/100)*(status-l_status);
             else
-                timetoSet += 500;
+                timetoSet = 500;
             if(pinToUse == downPin && time!=0){
                 time = abs(time - timetoSet);
                 stop();
