@@ -9,13 +9,10 @@ private:
   static constexpr char *password_key = "pwd";
   static constexpr char *api_key = "api";
   static constexpr char *status_key = "sts";
-  static constexpr char *configured_key = "cnf";
   static constexpr char *config_stage_key = "stg";
-  static constexpr char *fs_done_key = "fdk";
   static constexpr char *uptime_key = "up";
   static constexpr char *downtime_key = "down";
   String _ssid, _password, _api_key, _status;
-  bool _configured, _fsDone;
   unsigned long int _uptime, _downtime;
   int _stage_config;
   Preferences pref;
@@ -31,14 +28,10 @@ public:
   unsigned long int getUpTime() const;
   unsigned long int getDownTime() const;
   int getStage() const;
-  bool isConfigured() const;
-  bool isFsDone() const;
   void setWifiSSID(const String & ssid);
   void setWifiPassword(const String & pwd);
   void setStatus(const String & status);
   void setNewApiKey();
-  void setConfigured(bool cnf=true);
-  void setFsDone(bool cnf=true);
   void setUpTime(unsigned long int time);
   void setDownTime(unsigned long int time);
   void setStage(int stage);

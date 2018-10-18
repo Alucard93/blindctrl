@@ -1,16 +1,16 @@
-#include "Blind.h"
+#include "PinControl.h"
 
-int Blind::buttonUpStatus = 0;
-int Blind::buttonDownStatus = 0;
-int Blind::downtime = 0;
-int Blind::uptime = 0;
+int PinControl::buttonUpStatus = 0;
+int PinControl::buttonDownStatus = 0;
+int PinControl::downtime = 0;
+int PinControl::uptime = 0;
 
-void Blind::hwButton(){
+void PinControl::hwButton(){
     buttonDownStatus = digitalRead(buttonDown);
     buttonUpStatus = digitalRead(buttonUp);
 }
 
-void Blind::pinStart(){
+void PinControl::pinStart(){
     pinMode(upPin, OUTPUT);
     pinMode(downPin, OUTPUT);
     pinMode(buttonUp, INPUT);
@@ -20,16 +20,22 @@ void Blind::pinStart(){
     stop();
 }
 
-void Blind::wifisetup(){
-    WifiSetup::connect(View::_cnf->getWifiSSID(),View::_cnf->getWifiPassword());
-}
-
-void Blind::prepareDevice(){
+void PinControl::prepareDevice(){
     Serial.println("preparing filesystem");
     ESPUI.prepareFileSystem();
 }
 
-void Blind::stop(){
+void PinControl::stop(){
     digitalWrite(upPin, HIGH);
     digitalWrite(downPin, HIGH);
+}
+
+void PinControl::setUpPin(){
+    digitalWrite(upPin, LOW);
+    digitalWrite(downPin, HIGH);
+}
+
+void PinControl::setDownPin(){
+    digitalWrite(downPin, LOW);
+    digitalWrite(upPin, HIGH);
 }

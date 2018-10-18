@@ -1,14 +1,14 @@
-#ifndef BLIND_H
-#define BLIND_H
+#ifndef PINCONTROL_H
+#define PINCONTROL_H
 
-#include "View.h"
+#include <ESPUI.h>
 
-class Blind: public View{
+class PinControl{
 protected:
-    static constexpr byte upPin = 25;
-    static constexpr byte downPin = 26;
-    static constexpr byte buttonUp = 19;
-    static constexpr byte buttonDown = 21;
+    static constexpr int upPin = 25;
+    static constexpr int downPin = 26;
+    static constexpr int buttonUp = 19;
+    static constexpr int buttonDown = 21;
     static constexpr int stdelay=500;
     static int buttonUpStatus;
     static int buttonDownStatus;
@@ -19,12 +19,12 @@ protected:
     bool ready;
 
 public:
-    Blind(Configuration& cnf):View(cnf){}
     static void hwButton();
     void pinStart();
-    void wifisetup();
     void prepareDevice();
     static void stop();
+    static void setUpPin();
+    static void setDownPin();
 };
 
 #endif

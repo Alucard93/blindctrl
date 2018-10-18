@@ -1,10 +1,9 @@
-#include "SetUpView.h"
+#include "SetupView.h"
 
-String* SetUpView::av_ap=nullptr;
-int SetUpView::size=0;
-AsyncWebServer SetUpView::server(80);
+String* SetupView::av_ap=nullptr;
+int SetupView::size=0;
 
-void SetUpView::handler(AsyncWebServerRequest *request) {
+void SetupView::handler(AsyncWebServerRequest *request) {
   int headers = request->headers();
   int i;
   for(i=0;i<headers;i++){
@@ -37,7 +36,7 @@ void SetUpView::handler(AsyncWebServerRequest *request) {
 
 }
 
-String SetUpView::getWifiSelectionScreen(){
+String SetupView::getWifiSelectionScreen(){
   String message = "";
   message += "<div>SELECT SSID<br>";
   message += "<form action='/' method='post'>";
@@ -55,7 +54,7 @@ String SetUpView::getWifiSelectionScreen(){
   return message;
 }
 
-String SetUpView::getWifiPasswordInsertionScreen(String ssid_id){
+String SetupView::getWifiPasswordInsertionScreen(String ssid_id){
   String message = "";
   String ssid;
   int choosen = atoi(ssid_id.c_str());
@@ -74,37 +73,26 @@ String SetUpView::getWifiPasswordInsertionScreen(String ssid_id){
   return message;
 }
 
-String SetUpView::getSuccessScreen(String pwd){
+String SetupView::getSuccessScreen(String pwd){
   String message;
   message += "PASSWORD WAS " + pwd +"<br> API KEY <br>";
   View::_cnf->setWifiPassword(pwd);
   View::_cnf->setNewApiKey();
   message += View::_cnf->getApiKey();
-  View::_cnf->setConfigured();
-  View::_cnf->status();
+  View::_cnf->setStage(1);
   return message;
 }
 
-void SetUpView::error(AsyncWebServerRequest *request){
-  request->send(400, "text/html", "bad request");
-}
-
-void SetUpView::reboot(AsyncWebServerRequest *request){
-  ESP.restart();
-}
-
-void SetUpView::setup(){
+void SetupView::setup(){
   WifiSetup::scanNetworks();
   av_ap = WifiSetup::getAvailableNetworks();
   size = WifiSetup::getNumberOfNetworks();
-  WifiSetup::wifiAsAP("setup");
   View::_cnf->reset();
-  server.on("/", HTTP_ANY,handler);
-  server.on("/error", HTTP_ANY,error);
-  server.on("/reboot", HTTP_ANY,reboot);
-  server.begin();
+  View::serverStart();
+  webServer->on("/", HTTP_ANY,handler);
+  webServer->begin();
 }
 
-void SetUpView::handleButton(){
+void SetupView::handleButton(){
   
 }

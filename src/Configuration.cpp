@@ -18,13 +18,11 @@ Configuration::Configuration(){
   _password = pref.getString(password_key);
   _api_key = pref.getString(api_key);
   _status = pref.getString(status_key);
-  _configured = pref.getBool(configured_key);
-  _fsDone = pref.getBool(fs_done_key);
   _uptime = pref.getULong(uptime_key);
   _downtime = pref.getULong(downtime_key);
   _stage_config = pref.getInt(config_stage_key);
   pref.end();
-  if(!_configured)
+  if(_stage_config==0)
     setNewApiKey();
 }
 
@@ -34,9 +32,7 @@ void Configuration::status(){
   Serial.println(pref.getString(ssid_key).c_str());
   Serial.println(pref.getString(password_key).c_str());
   Serial.println(pref.getString(api_key).c_str());
-  Serial.println(pref.getBool(configured_key));
   Serial.println(pref.getString(status_key));
-  Serial.println(pref.getBool(fs_done_key));
   Serial.println(pref.getULong(uptime_key));
   Serial.println(pref.getULong(downtime_key));
   Serial.println();
@@ -65,14 +61,6 @@ unsigned long int Configuration::getUpTime() const{
 
 unsigned long int Configuration::getDownTime() const{
   return _downtime;
-}
- 
-bool Configuration::isConfigured() const{
-  return _configured;
-}
-
-bool Configuration::isFsDone() const{
-  return _fsDone;
 }
 
 int Configuration::getStage() const{
@@ -106,20 +94,6 @@ void Configuration::setNewApiKey(){
   Serial.println(_api_key.c_str());
   pref.begin(name_mem, false);
   pref.putString(api_key,_api_key);
-  pref.end();
-}
-
-void Configuration::setConfigured(bool cnf){
-  _configured = cnf;
-  pref.begin(name_mem, false);
-  pref.putBool(configured_key,_configured);
-  pref.end();
-}
-
-void Configuration::setFsDone(bool cnf){
-  _fsDone = cnf;
-  pref.begin(name_mem, false);
-  pref.putBool(fs_done_key,_fsDone);
   pref.end();
 }
 
