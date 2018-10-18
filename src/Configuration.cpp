@@ -22,6 +22,7 @@ Configuration::Configuration(){
   _fsDone = pref.getBool(fs_done_key);
   _uptime = pref.getULong(uptime_key);
   _downtime = pref.getULong(downtime_key);
+  _stage_config = pref.getInt(config_stage_key);
   pref.end();
   if(!_configured)
     setNewApiKey();
@@ -72,6 +73,10 @@ bool Configuration::isConfigured() const{
 
 bool Configuration::isFsDone() const{
   return _fsDone;
+}
+
+int Configuration::getStage() const{
+  return _stage_config;
 }
 
 void Configuration::setWifiSSID(const String & ssid){
@@ -132,6 +137,13 @@ void Configuration::setDownTime(unsigned long int rtime){
   pref.putULong(downtime_key, _downtime);
   pref.end();
 
+}
+
+void Configuration::setStage(int stage){
+  _stage_config = stage;
+  pref.begin(name_mem, false);
+  pref.putInt(config_stage_key, _stage_config);
+  pref.end();
 }
 
 void Configuration::reset(){

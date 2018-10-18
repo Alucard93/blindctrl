@@ -3,6 +3,7 @@
 #include "Configuration.h"
 #include "BlindControl.h"
 #include "SetUpView.h"
+#include "setupBlind.h"
 #include "View.h"
 
 class WebRequestsHandler {
