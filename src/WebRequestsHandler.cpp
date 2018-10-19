@@ -13,11 +13,11 @@ WebRequestsHandler::WebRequestsHandler(){
       break;
   case 1:
   case 2:
-      view = new SetupBlind(*conf);
+      view = new SetupShutter(*conf);
       Serial.println("SetupBlind");
       break;
   case 3:
-      view = new BlindControl(*conf);
+      view = new ShutterControl(*conf);
       Serial.println("BlindControl");     
       break;
   }
