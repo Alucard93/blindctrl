@@ -1,15 +1,15 @@
-#ifndef SetupBlind_H
-#define SetupBlind_H
+#ifndef SETUPSHUTTER_H
+#define SETUPSHUTTER_H
 
 #include "PinControl.h"
 #include "View.h"
 
-class SetupBlind: public PinControl, public View{
+class SetupShutter: public PinControl, public View{
 private:
     static bool readyConfigure;
 
 public:
-    SetupBlind(Configuration& cnf):View(cnf){}
+    SetupShutter(Configuration& cnf):View(cnf){}
     void setup();
     static void readyConf(Control sender, int type);
     static void saveConf(Control sender, int type);
