@@ -3,9 +3,9 @@
 
 #include "Configuration.h"
 #include "WifiSetup.h"
-#include "BlindControl.h"
+#include "ShutterControl.h"
 #include "SetupView.h"
-#include "SetupBlind.h"
+#include "SetupShutter.h"
 #include "View.h"
 
 class WebRequestsHandler {

@@ -1,8 +1,8 @@
-#include "SetupBlind.h"
+#include "SetupShutter.h"
 
-bool SetupBlind::readyConfigure = false;
-//TODO MOVE PIN CONTROL TO BLIND CLASS
-void SetupBlind::handleButton(){
+bool SetupShutter::readyConfigure = false;
+//TODO MOVE PIN CONTROL TO Shutter CLASS
+void SetupShutter::handleButton(){
     Serial.println(buttonUpStatus);
     Serial.println(buttonDownStatus);
     delay(stdelay);
@@ -21,7 +21,7 @@ void SetupBlind::handleButton(){
     }
 }
 
-void SetupBlind::setup(){
+void SetupShutter::setup(){
     if(View::_cnf->getStage()==1){
         prepareDevice();
         View::_cnf->setStage(2);
@@ -31,18 +31,18 @@ void SetupBlind::setup(){
     ready = true;
 }
 
-void SetupBlind::getInterface(){
+void SetupShutter::getInterface(){
     ESPUI.button("ready?",readyConf,COLOR_EMERALD,"start");
     ESPUI.button("save and reboot",saveConf,COLOR_EMERALD,"save and reboot");
     ESPUI.begin("test");
     View::serverStart();
 }
 
-void SetupBlind::readyConf(Control sender, int type){
+void SetupShutter::readyConf(Control sender, int type){
     readyConfigure= true;
 }
 
-void SetupBlind::saveConf(Control sender, int type){
+void SetupShutter::saveConf(Control sender, int type){
     View::_cnf->setDownTime(downtime*stdelay);
     View::_cnf->setUpTime(uptime*stdelay);
     View::_cnf->setStage(3);

@@ -1,15 +1,15 @@
-#include "BlindControl.h"
+#include "ShutterControl.h"
 
-int BlindControl::status = 0;
-long int BlindControl::time=0;
-int BlindControl::pinToUse=0;
+int ShutterControl::status = 0;
+long int ShutterControl::time=0;
+int ShutterControl::pinToUse=0;
 bool PinControl::free=true;
 
 
 /**
- * @brief BlindControl::move checks that time is 0 
+ * @brief ShutterControl::move checks that time is 0 
  * */
-void BlindControl::move(){
+void ShutterControl::move(){
     Serial.println(pinToUse);    
     if(pinToUse == 0)
         stop();
@@ -30,18 +30,18 @@ void BlindControl::move(){
 }
 
 /**
- * @brief BlindControl::handleRequest handles the request from the slider
+ * @brief ShutterControl::handleRequest handles the request from the slider
  * */
-void BlindControl::handleRequest(Control sender, int type){
+void ShutterControl::handleRequest(Control sender, int type){
     int requested_status = atoi(sender.value.c_str());
     setStatus(requested_status);
 }
 
 
 /**
- * @brief BlindControl::setup() prepare the device already configured
+ * @brief ShutterControl::setup() prepare the device already configured
  * */
-void BlindControl::setup(){
+void ShutterControl::setup(){
     Serial.println("setUp");
     uptime = View::_cnf->getUpTime();
     downtime = View::_cnf->getDownTime();
@@ -49,21 +49,21 @@ void BlindControl::setup(){
 }
  
  /**
-  * @brief BlindControl::getControlInteraface setup the web interface
+  * @brief ShutterControl::getControlInteraface setup the web interface
   * */
-void BlindControl::getControlInteraface(){
+void ShutterControl::getControlInteraface(){
     Serial.println("gui setup");
     Serial.println("gui setup");
     ESPUI.slider("Controller", handleRequest, COLOR_ALIZARIN, String(status));
-    ESPUI.begin("Blinder Control");
+    ESPUI.begin("Shutterer Control");
     this->pinStart();
     ready = true;
 }
 
 /**
- * @brief BlindControl::handleButton handles button state change
+ * @brief ShutterControl::handleButton handles button state change
  * */
-void BlindControl::handleButton(){
+void ShutterControl::handleButton(){
     Serial.println(buttonUpStatus);
     Serial.println(buttonDownStatus);
     Serial.println(status);
@@ -80,9 +80,9 @@ void BlindControl::handleButton(){
     
 }
 /**
- * @brief BlindControl::setStatus handles status change
+ * @brief ShutterControl::setStatus handles status change
  * */
-void BlindControl::setStatus(int l_status){
+void ShutterControl::setStatus(int l_status){
     if(l_status>=0 && l_status<=100){
         Serial.println(status);
         int timetoSet = 0;
