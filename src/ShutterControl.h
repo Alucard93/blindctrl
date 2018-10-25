@@ -3,6 +3,7 @@
 
 #include "PinControl.h"
 #include "View.h"
+#include "WebRequestsHandler.h"
 
 class ShutterControl: public PinControl, public View{
 private:

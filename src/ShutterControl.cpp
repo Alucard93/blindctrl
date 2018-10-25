@@ -10,7 +10,6 @@ bool PinControl::free=true;
  * @brief ShutterControl::move checks that time is 0 
  * */
 void ShutterControl::move(){
-    Serial.println(pinToUse);    
     if(pinToUse == 0)
         stop();
     if(pinToUse == -1)
@@ -24,7 +23,6 @@ void ShutterControl::move(){
     else{
         time -= 500;
     }
-    Serial.println(time);
 
 
 }
@@ -42,20 +40,19 @@ void ShutterControl::handleRequest(Control sender, int type){
  * @brief ShutterControl::setup() prepare the device already configured
  * */
 void ShutterControl::setup(){
-    Serial.println("setUp");
+    Serial.println("ShutterControl: setUp");
     uptime = View::_cnf->getUpTime();
     downtime = View::_cnf->getDownTime();
     getControlInteraface();
+    PinControl::readyLed(true);
 }
  
  /**
   * @brief ShutterControl::getControlInteraface setup the web interface
   * */
 void ShutterControl::getControlInteraface(){
-    Serial.println("gui setup");
-    Serial.println("gui setup");
     ESPUI.slider("Controller", handleRequest, COLOR_ALIZARIN, String(status));
-    ESPUI.begin("Shutterer Control");
+    ESPUI.begin("Shutter Control");
     this->pinStart();
     ready = true;
 }
@@ -64,9 +61,6 @@ void ShutterControl::getControlInteraface(){
  * @brief ShutterControl::handleButton handles button state change
  * */
 void ShutterControl::handleButton(){
-    Serial.println(buttonUpStatus);
-    Serial.println(buttonDownStatus);
-    Serial.println(status);
     delay(250);
     if(ready){
         move();
@@ -84,7 +78,6 @@ void ShutterControl::handleButton(){
  * */
 void ShutterControl::setStatus(int l_status){
     if(l_status>=0 && l_status<=100){
-        Serial.println(status);
         int timetoSet = 0;
         if((buttonUpStatus || buttonDownStatus) && free)
         {
