@@ -17,9 +17,9 @@ protected:
     static int uptime;
     static bool free;
     int type;
-    bool ready;
 
 public:
+    static bool ready;
     static void hwButton();
     void pinStart();
     void prepareDevice();

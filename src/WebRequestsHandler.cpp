@@ -38,6 +38,7 @@ void WebRequestsHandler::setup(){
   ws->on("/", HTTP_ANY, wrHandler);
   ws->begin();
   uphandler = new UpdateHandler();
+  PinControl::ready = true;
 
 }
 

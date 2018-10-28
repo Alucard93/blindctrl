@@ -4,10 +4,12 @@ int PinControl::buttonUpStatus = 0;
 int PinControl::buttonDownStatus = 0;
 int PinControl::downtime = 0;
 int PinControl::uptime = 0;
-
+bool PinControl::ready = false;
 void PinControl::hwButton(){
-    buttonDownStatus = digitalRead(buttonDown);
-    buttonUpStatus = digitalRead(buttonUp);
+    if(ready){
+        buttonDownStatus = digitalRead(buttonDown);
+        buttonUpStatus = digitalRead(buttonUp);
+    }
 }
 
 void PinControl::pinStart(){

@@ -40,6 +40,7 @@ void ShutterControl::handleRequest(Control sender, int type){
  * @brief ShutterControl::setup() prepare the device already configured
  * */
 void ShutterControl::setup(){
+    View::_cnf->reset();
     Serial.println("ShutterControl: setUp");
     uptime = View::_cnf->getUpTime();
     downtime = View::_cnf->getDownTime();
