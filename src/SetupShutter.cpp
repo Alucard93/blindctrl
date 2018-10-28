@@ -29,6 +29,7 @@ void SetupShutter::setup(){
     getInterface();
     pinStart();
     ready = true;
+    PinControl::readyLed(true);
 }
 
 void SetupShutter::getInterface(){
