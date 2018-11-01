@@ -1,4 +1,4 @@
-#include "UpdaterHandler.h"
+#include "UpdateHandler.h"
 
 UpdateHandler::UpdateHandler(){
     ArduinoOTA
@@ -9,8 +9,12 @@ UpdateHandler::UpdateHandler(){
         else // U_SPIFFS
             type = "filesystem";
 
+        PinControl::setBootPin(); // makes the device ready for update
+
+            //Serial.println(PinControl::getStatus());
             // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
         Serial.println("Start updating " + type);
+
         })
     .onEnd([]() {
         Serial.println("\nEnd");
@@ -26,7 +30,7 @@ UpdateHandler::UpdateHandler(){
         else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
         else if (error == OTA_END_ERROR) Serial.println("End Failed");
     });
-    
+
     ArduinoOTA.begin();
 }
 
