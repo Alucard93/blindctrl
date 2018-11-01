@@ -3,13 +3,14 @@
 View* WebRequestsHandler::view;
 AsyncWebServer* WebRequestsHandler::ws;
 UpdateHandler* WebRequestsHandler::uphandler;
+Configuration* WebRequestsHandler::conf;
 
 WebRequestsHandler::WebRequestsHandler(){
   conf = new Configuration();
   switch(conf->getStage()){
-    case 0: 
+    case 0:
       view = new SetupView(*conf);
-      Serial.println("SetupView");      
+      Serial.println("SetupView");
       break;
   case 1:
   case 2:
@@ -18,13 +19,14 @@ WebRequestsHandler::WebRequestsHandler(){
       break;
   case 3:
       view = new ShutterControl(*conf);
-      Serial.println("BlindControl");     
+      Serial.println("BlindControl");
       break;
   }
 }
 
 void WebRequestsHandler::wrHandler(AsyncWebServerRequest *request){
-  request->send(200, "text/html", "tomare");
+  WebRequestsHandler::conf->reset();
+  ESP.restart();
 }
 
 void WebRequestsHandler::setup(){
@@ -33,7 +35,7 @@ void WebRequestsHandler::setup(){
   view->setup();
   if(!conf->getStage())
     WifiSetup::wifiAsAP("setup");
-  
+
   ws = new AsyncWebServer(91);
   ws->on("/", HTTP_ANY, wrHandler);
   ws->begin();
@@ -43,6 +45,7 @@ void WebRequestsHandler::setup(){
 }
 
 void WebRequestsHandler::handle(){
-  view->handleButton();
-  uphandler->handle();
+    PinControl::hwButton();
+    view->handleButton();
+    uphandler->handle();
 }

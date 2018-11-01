@@ -7,25 +7,22 @@ int PinControl::uptime = 0;
 bool PinControl::ready = false;
 void PinControl::hwButton(){
     if(ready){
-        buttonDownStatus = digitalRead(buttonDown);
-        buttonUpStatus = digitalRead(buttonUp);
+        buttonDownStatus = !(digitalRead(buttonDown));
+        buttonUpStatus = !(digitalRead(buttonUp));
     }
 }
 
 void PinControl::pinStart(){
     pinMode(upPin, OUTPUT);
     pinMode(downPin, OUTPUT);
-    pinMode(buttonUp, INPUT);
-    pinMode(buttonDown, INPUT);
+    pinMode(buttonUp, INPUT_PULLUP);
+    pinMode(buttonDown, INPUT_PULLUP);
+    digitalWrite(buttonUp, HIGH);
+    digitalWrite(buttonDown, HIGH);
     pinMode(2,OUTPUT);
-    attachInterrupt(digitalPinToInterrupt(buttonUp),hwButton,RISING);
-    attachInterrupt(digitalPinToInterrupt(buttonDown),hwButton,RISING);
+    //attachInterrupt(digitalPinToInterrupt(buttonUp),hwButton,RISING);
+    //attachInterrupt(digitalPinToInterrupt(buttonDown),hwButton,RISING);
     stop();
-}
-
-void PinControl::prepareDevice(){
-    Serial.println("preparing filesystem");
-    ESPUI.prepareFileSystem();
 }
 
 void PinControl::stop(){
@@ -67,5 +64,5 @@ String PinControl::getStatus(){
     toReturn += digitalRead(upPin)+'\n';
     toReturn += "boot"+'\n';
     toReturn += digitalRead(bootpin)+'\n';
-    
+    return toReturn;
 }

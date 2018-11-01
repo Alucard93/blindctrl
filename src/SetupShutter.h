@@ -1,6 +1,7 @@
 #ifndef SETUPSHUTTER_H
 #define SETUPSHUTTER_H
 
+#include <ESPUI.h>
 #include "PinControl.h"
 #include "View.h"
 

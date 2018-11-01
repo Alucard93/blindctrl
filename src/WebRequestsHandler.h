@@ -13,13 +13,13 @@
 
 class WebRequestsHandler {
 private:
-  Configuration* conf;
+  static Configuration* conf;
   static UpdateHandler* uphandler;
   static View* view;
   static AsyncWebServer* ws;
-  
+
 public:
-  
+
   WebRequestsHandler();
   void setup();
   static void handle();

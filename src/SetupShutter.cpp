@@ -3,8 +3,8 @@
 bool SetupShutter::readyConfigure = false;
 //TODO MOVE PIN CONTROL TO Shutter CLASS
 void SetupShutter::handleButton(){
-    Serial.println(buttonUpStatus);
-    Serial.println(buttonDownStatus);
+    //Serial.println(buttonUpStatus);
+    //Serial.println(buttonDownStatus);
     delay(stdelay);
     if(ready){
         if(buttonUpStatus){
@@ -19,11 +19,13 @@ void SetupShutter::handleButton(){
             stop();
         }
     }
+    Serial.println(uptime*stdelay);
+    Serial.println(downtime*stdelay);
 }
 
 void SetupShutter::setup(){
     if(View::_cnf->getStage()==1){
-        prepareDevice();
+        ESPUI.prepareFileSystem();
         View::_cnf->setStage(2);
     }
     getInterface();

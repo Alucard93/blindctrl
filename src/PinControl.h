@@ -1,7 +1,7 @@
 #ifndef PINCONTROL_H
 #define PINCONTROL_H
 
-#include <ESPUI.h>
+#include <Arduino.h>
 
 class PinControl{
 protected:
@@ -10,7 +10,7 @@ protected:
     static constexpr int buttonUp = 19;
     static constexpr int buttonDown = 21;
     static constexpr int bootpin = 0;
-    static constexpr int stdelay=500;
+    static constexpr int stdelay=20;
     static int buttonUpStatus;
     static int buttonDownStatus;
     static int downtime;

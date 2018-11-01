@@ -1,6 +1,8 @@
 #ifndef SHUTTERCONTROL_H
 #define SHUTTERCONTROL_H
 
+#include <math.h>
+#include <ESPUI.h>
 #include "PinControl.h"
 #include "View.h"
 #include "WebRequestsHandler.h"
@@ -10,6 +12,10 @@ private:
     static int status;
     static long int time;
     static int pinToUse;
+    static constexpr int up = 1;
+    static constexpr int down = -1;
+    static double unitDown;
+    static double unitUp;
 public:
     ShutterControl(Configuration& cnf):View(cnf){}
     void move();
