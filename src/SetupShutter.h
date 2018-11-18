@@ -7,12 +7,14 @@
 
 class SetupShutter: public PinControl, public View{
 private:
-    static bool readyConfigure;
+    static int configureUp;
+    static int configureDown;
 
 public:
     SetupShutter(Configuration& cnf):View(cnf){}
     void setup();
-    static void readyConf(Control sender, int type);
+    static void upConf(Control sender, int type);
+    static void downConf(Control sender, int type);
     static void saveConf(Control sender, int type);
     static void getInterface();
     void handleButton();

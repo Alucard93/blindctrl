@@ -44,6 +44,10 @@ void WebRequestsHandler::setup(){
 
 }
 
+void WebRequestsHandler::WifiHandler(){
+    WifiSetup::updateMesh();
+}
+
 void WebRequestsHandler::handle(){
     PinControl::hwButton();
     view->handleButton();

@@ -1,26 +1,34 @@
 #include "SetupShutter.h"
 
-bool SetupShutter::readyConfigure = false;
+int SetupShutter::configureUp = 0;
+int SetupShutter::configureDown = 0;
 //TODO MOVE PIN CONTROL TO Shutter CLASS
 void SetupShutter::handleButton(){
-    //Serial.println(buttonUpStatus);
-    //Serial.println(buttonDownStatus);
-    delay(stdelay);
     if(ready){
         if(buttonUpStatus){
             PinControl::setUpPin();
-            if(readyConfigure)
-                uptime++;//savetime
+            if(configureUp == 1){
+                uptime = millis();
+                configureUp++;
+            }//savetime
         }else if (buttonDownStatus){
             PinControl::setDownPin();
-            if(readyConfigure)
-                downtime++;//savetime
+            if(configureDown == 1){
+                downtime=millis();//savetime
+                configureDown++;
+            }
         }else{
+            if(configureUp == 2){
+                uptime = millis() - uptime;
+                configureUp = 0;
+            }
+            if(configureDown == 2){
+                downtime = millis() - downtime;
+                configureDown = 0;
+            }
             stop();
         }
     }
-    Serial.println(uptime*stdelay);
-    Serial.println(downtime*stdelay);
 }
 
 void SetupShutter::setup(){
@@ -35,20 +43,26 @@ void SetupShutter::setup(){
 }
 
 void SetupShutter::getInterface(){
-    ESPUI.button("ready?",readyConf,COLOR_EMERALD,"start");
+    ESPUI.button("Up",upConf,COLOR_EMERALD,"Configure UP");
+    ESPUI.button("Down",downConf,COLOR_EMERALD,"Configure DOWN");
     ESPUI.button("save and reboot",saveConf,COLOR_EMERALD,"save and reboot");
     ESPUI.begin("test");
     View::serverStart();
 }
 
-void SetupShutter::readyConf(Control sender, int type){
-    readyConfigure= true;
+void SetupShutter::upConf(Control sender, int type){
+    configureUp= 1;
+}
+
+void SetupShutter::downConf(Control sender, int type){
+    configureDown= 1;
 }
 
 void SetupShutter::saveConf(Control sender, int type){
-    View::_cnf->setDownTime(downtime*stdelay);
-    View::_cnf->setUpTime(uptime*stdelay);
+    View::_cnf->setDownTime(downtime);
+    View::_cnf->setUpTime(uptime);
     View::_cnf->setStage(3);
-    delay(stdelay);
-    ESP.restart();
+    //ESP.restart();
+    Serial.println(downtime);
+    Serial.println(uptime);
 }

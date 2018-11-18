@@ -1,7 +1,9 @@
 #include "WifiSetup.h"
 
+WiFiClient WifiSetup::wifiClient;
 String WifiSetup::av_ap[20]={};
 int WifiSetup::size=0;
+painlessMesh WifiSetup::mesh;
 
 void WifiSetup::scanNetworks(){
   WiFi.mode(WIFI_STA);
@@ -28,19 +30,11 @@ void WifiSetup::wifiAsAP(const String& wifiName){
 }
 
 bool WifiSetup::connect(const String& ssid, const String& password){
-  if(WiFi.status() != WL_CONNECTED){
-    WiFi.begin(ssid.c_str(), password.c_str());
-    int retry = 40;
-    while (WiFi.status() != WL_CONNECTED && retry >= 0) {
-      delay(500);
-      Serial.print(".");
-      retry--;
-    }
-    if(retry==0){
-      Serial.println("error");
-      return false;
-    }
-  }
+  mesh.setDebugMsgTypes( ERROR | STARTUP | CONNECTION );
+  mesh.init(MESH_PREFIX, MESH_PASSWORD, MESH_PORT, WIFI_AP_STA, 11);
+  mesh.stationManual(ssid, password);
+  mesh.setHostname("prova");
+
   return true;
 }
 
@@ -50,4 +44,8 @@ String* WifiSetup::getAvailableNetworks(){
 
 int WifiSetup::getNumberOfNetworks(){
   return size;
+}
+
+void WifiSetup::updateMesh(){
+    mesh.update();
 }
