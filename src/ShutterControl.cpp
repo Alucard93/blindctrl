@@ -68,6 +68,7 @@ void ShutterControl::handleButton(){
             setStatus(status+1);
         }else{
             if(!free){
+                stop();
                 free = true;
             }
         }
