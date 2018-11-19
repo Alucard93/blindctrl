@@ -32,4 +32,6 @@
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .scannerwork
+.clang_complete
+.gcc-flags.json
 bw-output
