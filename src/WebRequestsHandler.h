@@ -22,6 +22,7 @@ public:
 
   WebRequestsHandler();
   void setup();
+  static void WifiHandler();
   static void handle();
   static void wrHandler(AsyncWebServerRequest *request);
 };
